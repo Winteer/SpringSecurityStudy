@@ -38,7 +38,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 //页面标题
-                .title("Price API")
+                .title("Order API")
                 //创建人
                 .contact(new Contact("winter", "http://XXXXXX.com/XXXX", ""))
                 //版本号

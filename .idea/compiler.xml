@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="order-api" />
         <module name="price-api" />
+        <module name="server-auth" />
         <module name="springsecuritystudy" />
         <module name="user-api" />
       </profile>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="order-api" options="-parameters" />
       <module name="price-api" options="-parameters" />
+      <module name="server-auth" options="-parameters" />
       <module name="user-api" options="-parameters" />
     </option>
   </component>
