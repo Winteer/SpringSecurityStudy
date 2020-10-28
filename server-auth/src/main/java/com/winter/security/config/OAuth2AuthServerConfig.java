@@ -22,12 +22,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @EnableAuthorizationServer // 表示当前应用作为认证授权的服务器来存在
 public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @Lazy
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
