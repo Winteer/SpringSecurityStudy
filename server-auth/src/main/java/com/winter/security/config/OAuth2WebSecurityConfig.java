@@ -39,4 +39,5 @@ public class OAuth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //authenticationManager用来校验，传入的用户信息是否合法
         return super.authenticationManagerBean();
     }
+
 }

@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="order-api" />
         <module name="price-api" />
-        <module name="server-auth" />
-        <module name="springsecuritystudy" />
+        <module name="server-gateway" />
         <module name="user-api" />
+        <module name="order-api" />
+        <module name="springsecuritystudy" />
+        <module name="server-auth" />
       </profile>
     </annotationProcessing>
   </component>
@@ -19,6 +20,7 @@
       <module name="order-api" options="-parameters" />
       <module name="price-api" options="-parameters" />
       <module name="server-auth" options="-parameters" />
+      <module name="server-gateway" options="-parameters" />
       <module name="user-api" options="-parameters" />
     </option>
   </component>

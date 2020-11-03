@@ -1,0 +1,10 @@
+zuul:
+  routes:
+    token:
+      url: http://localhost:8884
+    order:
+      url: http://localhost:8882
+  #如果不设置敏感头的话,一些信息无法转发
+  sensitive-headers:
+server:
+  port: 8885
