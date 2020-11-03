@@ -12,10 +12,10 @@ spring:
       use-global-data-source-stat: true
   jpa:
     hibernate:
-      #ddl-auto: create-drop   #Çå³ıÊı¾İ¿â½¨±í
-      #ddl-auto: create        #²»Çå³ıÊı¾İ¿â½¨±í
-      ddl-auto: update         #±£ÁôÊı¾İ¿âÒÔ¼°±í¸üĞÂÊı¾İ¿â
-      #ddl-auto: validate      #ÔËĞĞ³ÌĞò»áĞ£ÑéÊı¾İÓëÊı¾İ¿âµÄ×Ö¶ÎÀàĞÍÊÇ·ñÏàÍ¬£¬²»Í¬»á±¨´í
+      #ddl-auto: create-drop   #æ¸…é™¤æ•°æ®åº“å»ºè¡¨
+      #ddl-auto: create        #ä¸æ¸…é™¤æ•°æ®åº“å»ºè¡¨
+      ddl-auto: update         #ä¿ç•™æ•°æ®åº“ä»¥åŠè¡¨æ›´æ–°æ•°æ®åº“
+      #ddl-auto: validate      #è¿è¡Œç¨‹åºä¼šæ ¡éªŒæ•°æ®ä¸æ•°æ®åº“çš„å­—æ®µç±»å‹æ˜¯å¦ç›¸åŒï¼Œä¸åŒä¼šæŠ¥é”™
     show-sql: true
 server:
   port: 8884

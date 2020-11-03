@@ -1,6 +1,7 @@
 package com.winter.security.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -18,8 +19,12 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     //配置HttpSecurity相关
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        // 配置 只有write的Scope可以调用POST请求，read的Scope调用GET请求
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.POST).access("#oauth2.hasAnyScope('write')")
+                .antMatchers(HttpMethod.GET).access("#oauth2.hasAnyScope('read')");
         //任何请求都需要身份认证
-        http.authorizeRequests().anyRequest().authenticated();
+//        http.authorizeRequests().anyRequest().authenticated();
 //        这个请求除外，其他的请求都需要身份认证
 //        http.authorizeRequests().antMatchers("/excepet").permitAll()
 //                .anyRequest().authenticated();

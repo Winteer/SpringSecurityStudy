@@ -1,13 +1,14 @@
 package com.winter.security.config;
 
+import com.winter.security.service.UserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.provider.token.*;
 
 /**
  * @ClassName : OAuth2WebSecurityConfig
@@ -19,6 +20,9 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 @EnableWebSecurity
 public class OAuth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     //远程token认证
     @Bean
     public ResourceServerTokenServices tokenServices() {
@@ -27,7 +31,20 @@ public class OAuth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
         tokenServices.setClientSecret("123456");
         //校验服务的地址
         tokenServices.setCheckTokenEndpointUrl("http://localhost:8884/oauth/check_token");
+        //修改下配置 ，让它用这个UserDetailsServiceImpl bean来读取相关的用户信息。
+        tokenServices.setAccessTokenConverter(getAccessTokenConverter());
         return tokenServices;
+    }
+
+
+    //修改下配置 ，让它用这个UserDetailsServiceImpl bean来读取相关的用户信息。
+    private AccessTokenConverter getAccessTokenConverter() {
+        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+        DefaultUserAuthenticationConverter userAuthenticationConverter = new DefaultUserAuthenticationConverter();
+        //设置用userDetailsService转换成user对象
+        userAuthenticationConverter.setUserDetailsService(userDetailsService);
+        accessTokenConverter.setUserTokenConverter(userAuthenticationConverter);
+        return accessTokenConverter;
     }
 
     @Bean   //暴露为一个Bean,覆写该方法。
