@@ -6,7 +6,11 @@ import com.netflix.zuul.exception.ZuulException;
 import com.winter.security.model.TokenInfo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Component
 public class OAuthFilter extends ZuulFilter {
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     private Logger logger = Logger.getLogger(this.getClass());
 
@@ -76,7 +82,15 @@ public class OAuthFilter extends ZuulFilter {
         String token = StringUtils.substringAfter(authHeader, "bearer ");
         String oauthServiceUrl = "http://localhost:8884/oauth/check_token";
 
-        TokenInfo tokenInfo = new TokenInfo();
-        return tokenInfo;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setBasicAuth("gateway", "123456");
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("token", token);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+        ResponseEntity<TokenInfo> responseEntity = restTemplate.exchange(oauthServiceUrl, HttpMethod.POST, entity, TokenInfo.class);
+        logger.info("token info : " + responseEntity.getBody().toString());
+        return responseEntity.getBody();
     }
 }
