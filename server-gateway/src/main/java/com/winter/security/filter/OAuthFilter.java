@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName : OAuthFilter
- * @Description :
+ * @Description : 认证过滤器
  * @Author : Winter
  * @Date: 2020-11-04 09:55
  */
@@ -66,11 +66,12 @@ public class OAuthFilter extends ZuulFilter {
         if (StringUtils.isBlank((authHeader))) {
             return null;
         }
-        if (!StringUtils.startsWithIgnoreCase("authheader", "bearer ")) {
+        if (!StringUtils.startsWithIgnoreCase(authHeader, "bearer ")) {
             return null;
         }
         try {
             TokenInfo info = getTokenInfo(authHeader);
+            // tokenInfo放到Attribute中
             request.setAttribute("tokenInfo", info);
         } catch (Exception e) {
             logger.error("get token info fail", e);
@@ -79,13 +80,14 @@ public class OAuthFilter extends ZuulFilter {
     }
 
     private TokenInfo getTokenInfo(String authHeader) {
-        String token = StringUtils.substringAfter(authHeader, "bearer ");
+        String token = StringUtils.substringAfter(authHeader, "Bearer ");
         String oauthServiceUrl = "http://localhost:8884/oauth/check_token";
 
         HttpHeaders headers = new HttpHeaders();
+        // check_token的服务并不是一个rest服务，不是发json请求的。所以指定发的是一个表单
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setBasicAuth("gateway", "123456");
-
+        // 这里只能用MultiValueMap，不能用hashMap
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("token", token);
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
