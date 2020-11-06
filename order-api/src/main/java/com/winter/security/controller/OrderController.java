@@ -2,13 +2,12 @@ package com.winter.security.controller;
 
 import com.winter.security.order.OrderInfo;
 import org.apache.log4j.Logger;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
  * @ClassName : OrderController
- * @Description :
+ * @Description : 订单服务Controller
  * @Author : Winter
  * @Date: 2020-10-26 11:04
  */
@@ -31,8 +30,9 @@ public class OrderController {
 //    }
 
     @PostMapping("/add")
-    public OrderInfo create(@RequestBody OrderInfo info, @AuthenticationPrincipal(expression = "#this.id") Long userId) {
-        logger.info("Userid = " + userId);
+//    public OrderInfo create(@RequestBody OrderInfo info, @AuthenticationPrincipal(expression = "#this.id") Long userId) { //删除了oauth的依赖
+    public OrderInfo create(@RequestBody OrderInfo info, @RequestHeader String username) {
+        logger.info("UserName  = " + username);
         return info;
     }
 
